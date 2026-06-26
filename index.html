@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Jeopardy Show</title>
+  <style>
+    :root{
+      --bg:#07111f; --panel:#0d1b31; --card:#10274a; --card2:#183867; --text:#f7fbff;
+      --muted:#a7b8cf; --gold:#ffd166; --cyan:#2de2e6; --red:#ff4d6d; --green:#45e08f;
+      --line:rgba(255,255,255,.14); --shadow:0 16px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:radial-gradient(circle at top,#102b55 0,#07111f 52%,#030712 100%); color:var(--text); min-height:100vh;}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer; border:0}
+    .wrap{max-width:1180px; margin:0 auto; padding:18px}
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px}
+    .title{font-size:clamp(26px,5vw,54px); font-weight:900; letter-spacing:.03em; margin:0; text-shadow:0 0 16px rgba(45,226,230,.35)}
+    .subtitle{margin:4px 0 0; color:var(--muted)}
+    .actions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .btn{padding:10px 13px; border-radius:12px; background:#203a62; color:var(--text); border:1px solid var(--line); box-shadow:0 8px 20px rgba(0,0,0,.18)}
+    .btn:hover{filter:brightness(1.1)}
+    .btn.primary{background:linear-gradient(135deg,#0aa6c2,#2367ff); color:white; font-weight:700}
+    .btn.gold{background:linear-gradient(135deg,#ffd166,#f59e0b); color:#211300; font-weight:900}
+    .btn.red{background:linear-gradient(135deg,#ff4d6d,#b91c1c); color:white}
+    .btn.ghost{background:rgba(255,255,255,.06)}
+    .scoreboard{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0 18px}
+    .team{background:rgba(255,255,255,.07); border:1px solid var(--line); border-radius:18px; padding:12px; box-shadow:var(--shadow)}
+    .team label{display:block; color:var(--muted); font-size:13px; margin-bottom:6px}
+    .team input{width:100%; background:rgba(0,0,0,.18); color:var(--text); border:1px solid var(--line); border-radius:10px; padding:8px; margin-bottom:8px}
+    .scoreRow{display:flex; align-items:center; justify-content:space-between; gap:6px}
+    .score{font-size:26px; font-weight:900; color:var(--gold)}
+    .miniBtns{display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end}
+    .mini{padding:6px 8px; border-radius:9px; background:#142b50; color:#fff; border:1px solid var(--line); font-size:12px}
+    .board{display:grid; grid-template-columns:repeat(5,1fr); gap:10px}
+    .cat{background:linear-gradient(180deg,#153c79,#0f2b56); border:1px solid var(--line); border-radius:14px; min-height:68px; display:flex; align-items:center; justify-content:center; text-align:center; padding:10px; font-weight:900; color:#fefefe; box-shadow:var(--shadow)}
+    .tile{min-height:86px; border-radius:16px; background:linear-gradient(180deg,#113a7a,#092856); color:var(--gold); font-size:clamp(24px,4vw,40px); font-weight:1000; border:1px solid rgba(255,255,255,.18); text-shadow:0 0 12px rgba(255,209,102,.35); box-shadow:var(--shadow); transition:.18s transform,.18s filter,.18s opacity; position:relative; overflow:hidden}
+    .tile:hover{transform:translateY(-2px); filter:brightness(1.1)}
+    .tile.used{opacity:.28; filter:grayscale(.7); color:#c5cedb}
+    .tile.daily::after{content:"★"; position:absolute; top:7px; right:10px; color:var(--cyan); font-size:18px}
+    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(1,6,18,.78); z-index:10}
+    .modal.on{display:flex}
+    .box{width:min(860px,100%); background:linear-gradient(180deg,#10284d,#07172e); border:1px solid var(--line); border-radius:24px; box-shadow:0 28px 70px rgba(0,0,0,.55); padding:22px; max-height:92vh; overflow:auto}
+    .qMeta{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; color:var(--muted); flex-wrap:wrap}
+    .badge{display:inline-flex; border:1px solid var(--line); background:rgba(255,255,255,.07); border-radius:999px; padding:7px 10px; font-weight:700}
+    .question{font-size:clamp(32px,7vw,72px); line-height:1.12; text-align:center; padding:34px 12px; font-weight:900; white-space:pre-wrap}
+    .answer{display:none; font-size:clamp(28px,5vw,56px); text-align:center; color:var(--green); font-weight:900; padding:22px 12px; white-space:pre-wrap}
+    .answer.on{display:block}
+    .modalActions{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:16px}
+    .dailySplash{display:none; text-align:center; padding:22px; border:2px solid var(--gold); border-radius:22px; background:rgba(255,209,102,.09); margin:10px 0 18px}
+    .dailySplash.on{display:block}
+    .dailySplash h2{font-size:clamp(34px,7vw,70px); margin:0; color:var(--gold)}
+    .editor{display:none; margin-top:18px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:22px; padding:16px}
+    .editor.on{display:block}
+    .editor h2{margin:0 0 10px}
+    .help{color:var(--muted); line-height:1.55; font-size:14px}
+    .editGrid{display:grid; grid-template-columns:1fr; gap:12px; margin-top:14px}
+    .catEdit{border:1px solid var(--line); border-radius:18px; background:rgba(0,0,0,.17); padding:12px}
+    .catHead{display:grid; grid-template-columns:100px 1fr; gap:8px; align-items:center; margin-bottom:10px}
+    .qEdit{display:grid; grid-template-columns:70px 1fr 1fr 110px; gap:8px; align-items:start; margin:8px 0; padding:8px; border-radius:12px; background:rgba(255,255,255,.045)}
+    input,textarea{width:100%; border:1px solid var(--line); border-radius:10px; padding:9px; background:rgba(0,0,0,.24); color:var(--text)}
+    textarea{min-height:62px; resize:vertical}
+    .checkline{display:flex; align-items:center; gap:6px; color:var(--muted); font-size:13px; padding-top:8px}
+    .checkline input{width:auto}
+    .finalBox{margin-top:14px; border:1px solid var(--line); border-radius:18px; padding:12px; background:rgba(0,0,0,.16)}
+    .footerNote{margin-top:12px; color:var(--muted); font-size:13px; text-align:center}
+    @media(max-width:820px){.scoreboard{grid-template-columns:repeat(2,1fr)} .board{gap:7px}.cat{font-size:13px; min-height:58px}.tile{min-height:68px}.qEdit{grid-template-columns:1fr}.catHead{grid-template-columns:1fr}.topbar{align-items:flex-start; flex-direction:column}.actions{justify-content:flex-start}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div>
+        <h1 class="title">ENGLISH JEOPARDY</h1>
+        <p class="subtitle">5 categories × 5 questions · Teacher-editable game board</p>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="finalBtn" type="button">Final Jeopardy</button>
+        <button class="btn ghost" id="editBtn" type="button">교사용 편집 모드</button>
+        <button class="btn red" id="resetBtn" type="button">게임 초기화</button>
+      </div>
+    </div>
+
+    <section class="scoreboard" id="scoreboard" aria-label="scoreboard"></section>
+    <section class="board" id="board" aria-label="jeopardy board"></section>
+
+    <section class="editor" id="editor">
+      <h2>교사용 편집 모드</h2>
+      <p class="help">
+        여기서 카테고리, 문제, 정답을 바꾼 뒤 <b>저장하기</b>를 누르면 이 브라우저에 저장됩니다. 학생들에게 배포할 때는 같은 GitHub 주소를 쓰면 되고, 문제를 영구적으로 새 파일에 반영하려면 <b>내보내기</b>로 저장한 HTML을 다시 GitHub에 올리면 됩니다.
+      </p>
+      <div class="actions" style="justify-content:flex-start;margin-top:10px">
+        <button class="btn gold" id="saveEditBtn" type="button">저장하기</button>
+        <button class="btn" id="exportBtn" type="button">수정본 HTML 내보내기</button>
+        <button class="btn ghost" id="restoreBtn" type="button">기본 문제로 되돌리기</button>
+      </div>
+      <div id="editGrid" class="editGrid"></div>
+      <div class="finalBox">
+        <h3>Final Jeopardy</h3>
+        <label>Final Question<textarea id="finalQuestion"></textarea></label>
+        <label>Final Answer<textarea id="finalAnswer"></textarea></label>
+      </div>
+    </section>
+    <p class="footerNote">Tip: 수업 중 점수 조정은 각 팀 카드의 +100 / -100 버튼으로 빠르게 할 수 있어요.</p>
+  </main>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-live="polite">
+    <div class="box">
+      <div class="qMeta">
+        <span class="badge" id="modalCat"></span>
+        <span class="badge" id="modalPts"></span>
+      </div>
+      <div class="dailySplash" id="dailySplash"><h2>DAILY DOUBLE!</h2><p>팀이 원하는 만큼 점수를 걸 수 있습니다.</p></div>
+      <div class="question" id="modalQuestion"></div>
+      <div class="answer" id="modalAnswer"></div>
+      <div class="modalActions">
+        <button class="btn gold" id="showAnswerBtn" type="button">정답 보기</button>
+        <button class="btn primary" id="markUsedBtn" type="button">푼 문제로 표시</button>
+        <button class="btn ghost" id="closeModalBtn" type="button">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_GAME_DATA = {
+      categories: [
+        {
+          name: "🎬 Movies",
+          questions: [
+            { points: 100, question: "🦁👑", answer: "The Lion King", daily: false },
+            { points: 200, question: "🚢💎❄️", answer: "Titanic", daily: false },
+            { points: 300, question: "🧙‍♂️⚡👓", answer: "Harry Potter", daily: false },
+            { points: 400, question: "🦖🏝️🚁", answer: "Jurassic Park", daily: true },
+            { points: 500, question: "👧🌪️👠🟢", answer: "The Wizard of Oz", daily: false }
+          ]
+        },
+        {
+          name: "🌍 Countries",
+          questions: [
+            { points: 100, question: "🍁🏒", answer: "Canada", daily: false },
+            { points: 200, question: "🍕🍝", answer: "Italy", daily: false },
+            { points: 300, question: "🦘🏄", answer: "Australia", daily: false },
+            { points: 400, question: "🌮🌵", answer: "Mexico", daily: false },
+            { points: 500, question: "🗼🥐", answer: "France", daily: false }
+          ]
+        },
+        {
+          name: "😀 Emoji Quiz",
+          questions: [
+            { points: 100, question: "🐱🐶🌧️", answer: "It’s raining cats and dogs.", daily: false },
+            { points: 200, question: "🩺💉", answer: "Doctor", daily: false },
+            { points: 300, question: "✈️👨‍✈️", answer: "Pilot", daily: false },
+            { points: 400, question: "👂➡️👂", answer: "In one ear and out the other", daily: false },
+            { points: 500, question: "🐝🍃", answer: "Believe", daily: false }
+          ]
+        },
+        {
+          name: "🤖 AI & Internet",
+          questions: [
+            { points: 100, question: "What does AI stand for?", answer: "Artificial Intelligence", daily: false },
+            { points: 200, question: "What app is famous for short videos?", answer: "TikTok", daily: false },
+            { points: 300, question: "What does URL mean?", answer: "Uniform Resource Locator", daily: true },
+            { points: 400, question: "What is a chatbot?", answer: "A computer program that talks with users", daily: false },
+            { points: 500, question: "What does ‘fake news’ mean?", answer: "False information presented as news", daily: false }
+          ]
+        },
+        {
+          name: "🎵 Pop Culture",
+          questions: [
+            { points: 100, question: "❄️👸🎵", answer: "Let It Go", daily: false },
+            { points: 200, question: "Which singer is known for the song ‘Shape of You’?", answer: "Ed Sheeran", daily: false },
+            { points: 300, question: "Which group sang ‘Dynamite’?", answer: "BTS", daily: false },
+            { points: 400, question: "Which movie has the song ‘A Whole New World’?", answer: "Aladdin", daily: false },
+            { points: 500, question: "What is the English title of ‘겨울왕국’?", answer: "Frozen", daily: false }
+          ]
+        }
+      ],
+      final: {
+        question: "👦⚡👓\nWhat is the movie/book series?",
+        answer: "Harry Potter"
+      }
+    };
+
+    let gameData = loadData();
+    let used = new Set();
+    let scores = [0,0,0,0];
+    let current = null;
+
+    const board = document.getElementById('board');
+    const scoreboard = document.getElementById('scoreboard');
+    const modal = document.getElementById('modal');
+    const modalCat = document.getElementById('modalCat');
+    const modalPts = document.getElementById('modalPts');
+    const modalQuestion = document.getElementById('modalQuestion');
+    const modalAnswer = document.getElementById('modalAnswer');
+    const dailySplash = document.getElementById('dailySplash');
+    const editor = document.getElementById('editor');
+    const editGrid = document.getElementById('editGrid');
+
+    function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+    function loadData(){
+      try { return JSON.parse(localStorage.getItem('jeopardyGameData')) || clone(DEFAULT_GAME_DATA); }
+      catch(e){ return clone(DEFAULT_GAME_DATA); }
+    }
+    function saveData(){ localStorage.setItem('jeopardyGameData', JSON.stringify(gameData)); }
+
+    function renderScores(){
+      scoreboard.innerHTML = '';
+      scores.forEach((score, i) => {
+        const card = document.createElement('div');
+        card.className = 'team';
+        card.innerHTML = `
+          <label for="team${i}">Team ${i+1}</label>
+          <input id="team${i}" value="Team ${i+1}" />
+          <div class="scoreRow"><span class="score" id="score${i}">${score}</span><div class="miniBtns">
+            <button class="mini" data-team="${i}" data-delta="100">+100</button>
+            <button class="mini" data-team="${i}" data-delta="-100">-100</button>
+            <button class="mini" data-team="${i}" data-delta="500">+500</button>
+          </div></div>`;
+        scoreboard.appendChild(card);
+      });
+      scoreboard.querySelectorAll('.mini').forEach(btn => btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.team), d = Number(btn.dataset.delta);
+        scores[i] += d;
+        document.getElementById('score'+i).textContent = scores[i];
+      }));
+    }
+
+    function renderBoard(){
+      board.innerHTML = '';
+      gameData.categories.forEach((cat) => {
+        const h = document.createElement('div');
+        h.className = 'cat';
+        h.textContent = cat.name;
+        board.appendChild(h);
+      });
+      for(let row=0; row<5; row++){
+        gameData.categories.forEach((cat, col) => {
+          const q = cat.questions[row];
+          const key = `${col}-${row}`;
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'tile' + (used.has(key) ? ' used' : '') + (q.daily ? ' daily' : '');
+          b.textContent = q.points;
+          b.addEventListener('click', () => openQuestion(col,row));
+          board.appendChild(b);
+        });
+      }
+    }
+
+    function openQuestion(col,row){
+      current = {col,row,key:`${col}-${row}`};
+      const cat = gameData.categories[col];
+      const q = cat.questions[row];
+      modalCat.textContent = cat.name;
+      modalPts.textContent = q.points + ' points';
+      modalQuestion.textContent = q.question;
+      modalAnswer.textContent = q.answer;
+      modalAnswer.classList.remove('on');
+      dailySplash.classList.toggle('on', !!q.daily);
+      modal.classList.add('on');
+    }
+
+    function closeModal(){ modal.classList.remove('on'); }
+
+    function renderEditor(){
+      editGrid.innerHTML = '';
+      gameData.categories.forEach((cat, ci) => {
+        const box = document.createElement('div');
+        box.className = 'catEdit';
+        box.innerHTML = `<div class="catHead"><b>Category ${ci+1}</b><input data-path="cat-${ci}" value="${escapeAttr(cat.name)}" /></div>`;
+        cat.questions.forEach((q, qi) => {
+          const row = document.createElement('div');
+          row.className = 'qEdit';
+          row.innerHTML = `
+            <input data-path="points-${ci}-${qi}" value="${q.points}" />
+            <textarea data-path="question-${ci}-${qi}">${escapeHtml(q.question)}</textarea>
+            <textarea data-path="answer-${ci}-${qi}">${escapeHtml(q.answer)}</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-${ci}-${qi}" ${q.daily ? 'checked' : ''}/> Daily Double</label>`;
+          box.appendChild(row);
+        });
+        editGrid.appendChild(box);
+      });
+      document.getElementById('finalQuestion').value = gameData.final.question;
+      document.getElementById('finalAnswer').value = gameData.final.answer;
+    }
+
+    function applyEditor(){
+      editGrid.querySelectorAll('[data-path]').forEach(el => {
+        const parts = el.dataset.path.split('-');
+        if(parts[0] === 'cat') gameData.categories[Number(parts[1])].name = el.value;
+        if(parts[0] === 'points') gameData.categories[Number(parts[1])].questions[Number(parts[2])].points = Number(el.value) || 0;
+        if(parts[0] === 'question') gameData.categories[Number(parts[1])].questions[Number(parts[2])].question = el.value;
+        if(parts[0] === 'answer') gameData.categories[Number(parts[1])].questions[Number(parts[2])].answer = el.value;
+        if(parts[0] === 'daily') gameData.categories[Number(parts[1])].questions[Number(parts[2])].daily = el.checked;
+      });
+      gameData.final.question = document.getElementById('finalQuestion').value;
+      gameData.final.answer = document.getElementById('finalAnswer').value;
+      saveData();
+      used = new Set();
+      renderBoard();
+      alert('저장 완료! 이 브라우저에서는 수정한 문제가 유지됩니다.');
+    }
+
+    function exportHtml(){
+      applyEditor();
+      const html = document.documentElement.outerHTML.replace(
+        /const DEFAULT_GAME_DATA = [\s\S]*?;\n\n    let gameData = loadData\(\);/,
+        'const DEFAULT_GAME_DATA = ' + JSON.stringify(gameData, null, 6) + ';\n\n    let gameData = loadData();'
+      );
+      const blob = new Blob(['<!doctype html>\n' + html], {type:'text/html;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function escapeHtml(str){ return String(str).replace(/[&<>]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[s])); }
+    function escapeAttr(str){ return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+    document.getElementById('showAnswerBtn').addEventListener('click', () => modalAnswer.classList.add('on'));
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('markUsedBtn').addEventListener('click', () => {
+      if(current) used.add(current.key);
+      closeModal();
+      renderBoard();
+    });
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if(confirm('점수와 푼 문제 표시를 초기화할까요?')){ scores=[0,0,0,0]; used=new Set(); renderScores(); renderBoard(); }
+    });
+    document.getElementById('editBtn').addEventListener('click', () => {
+      editor.classList.toggle('on');
+      renderEditor();
+      editor.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    document.getElementById('saveEditBtn').addEventListener('click', applyEditor);
+    document.getElementById('exportBtn').addEventListener('click', exportHtml);
+    document.getElementById('restoreBtn').addEventListener('click', () => {
+      if(confirm('기본 예시 문제로 되돌릴까요? 현재 수정 내용은 사라집니다.')){
+        gameData = clone(DEFAULT_GAME_DATA); localStorage.removeItem('jeopardyGameData'); renderEditor(); renderBoard();
+      }
+    });
+    document.getElementById('finalBtn').addEventListener('click', () => {
+      current = null;
+      modalCat.textContent = '🏆 Final Jeopardy';
+      modalPts.textContent = 'Final';
+      modalQuestion.textContent = gameData.final.question;
+      modalAnswer.textContent = gameData.final.answer;
+      modalAnswer.classList.remove('on');
+      dailySplash.classList.remove('on');
+      modal.classList.add('on');
+    });
+    modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+    window.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+    renderScores();
+    renderBoard();
+    renderEditor();
+  </script>
+</body>
+</html>
