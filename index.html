@@ -1,8 +1,7 @@
 <!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>English Jeopardy Show</title>
   <style>
     :root{
@@ -82,10 +81,38 @@
       </div>
     </div>
 
-    <section class="scoreboard" id="scoreboard" aria-label="scoreboard"></section>
-    <section class="board" id="board" aria-label="jeopardy board"></section>
+    <section class="scoreboard" id="scoreboard" aria-label="scoreboard"><div class="team">
+          <label for="team0">Team 1</label>
+          <input id="team0" value="Team 1">
+          <div class="scoreRow"><span class="score" id="score0">0</span><div class="miniBtns">
+            <button class="mini" data-team="0" data-delta="100">+100</button>
+            <button class="mini" data-team="0" data-delta="-100">-100</button>
+            <button class="mini" data-team="0" data-delta="500">+500</button>
+          </div></div></div><div class="team">
+          <label for="team1">Team 2</label>
+          <input id="team1" value="Team 2">
+          <div class="scoreRow"><span class="score" id="score1">0</span><div class="miniBtns">
+            <button class="mini" data-team="1" data-delta="100">+100</button>
+            <button class="mini" data-team="1" data-delta="-100">-100</button>
+            <button class="mini" data-team="1" data-delta="500">+500</button>
+          </div></div></div><div class="team">
+          <label for="team2">Team 3</label>
+          <input id="team2" value="Team 3">
+          <div class="scoreRow"><span class="score" id="score2">0</span><div class="miniBtns">
+            <button class="mini" data-team="2" data-delta="100">+100</button>
+            <button class="mini" data-team="2" data-delta="-100">-100</button>
+            <button class="mini" data-team="2" data-delta="500">+500</button>
+          </div></div></div><div class="team">
+          <label for="team3">Team 4</label>
+          <input id="team3" value="Team 4">
+          <div class="scoreRow"><span class="score" id="score3">0</span><div class="miniBtns">
+            <button class="mini" data-team="3" data-delta="100">+100</button>
+            <button class="mini" data-team="3" data-delta="-100">-100</button>
+            <button class="mini" data-team="3" data-delta="500">+500</button>
+          </div></div></div></section>
+    <section class="board" id="board" aria-label="jeopardy board"><div class="cat">Amazing Facts</div><div class="cat">Connect 4 Words</div><div class="cat">Movie Titles: Lost Vowels</div><div class="cat">Dingbats (English Expressions)</div><div class="cat">Brain Teasers</div><button type="button" class="tile">100</button><button type="button" class="tile">100</button><button type="button" class="tile">100</button><button type="button" class="tile">100</button><button type="button" class="tile">100</button><button type="button" class="tile">200</button><button type="button" class="tile">200</button><button type="button" class="tile">200</button><button type="button" class="tile">200</button><button type="button" class="tile">200</button><button type="button" class="tile">300</button><button type="button" class="tile">300</button><button type="button" class="tile">300</button><button type="button" class="tile daily">300</button><button type="button" class="tile">300</button><button type="button" class="tile daily">400</button><button type="button" class="tile">400</button><button type="button" class="tile">400</button><button type="button" class="tile">400</button><button type="button" class="tile">400</button><button type="button" class="tile">500</button><button type="button" class="tile">500</button><button type="button" class="tile">500</button><button type="button" class="tile">500</button><button type="button" class="tile">500</button></section>
 
-    <section class="editor" id="editor">
+    <section class="editor on" id="editor">
       <h2>교사용 편집 모드</h2>
       <p class="help">
         여기서 카테고리, 문제, 정답을 바꾼 뒤 <b>저장하기</b>를 누르면 이 브라우저에 저장됩니다. 학생들에게 배포할 때는 같은 GitHub 주소를 쓰면 되고, 문제를 영구적으로 새 파일에 반영하려면 <b>내보내기</b>로 저장한 HTML을 다시 GitHub에 올리면 됩니다.
@@ -95,7 +122,146 @@
         <button class="btn" id="exportBtn" type="button">수정본 HTML 내보내기</button>
         <button class="btn ghost" id="restoreBtn" type="button">기본 문제로 되돌리기</button>
       </div>
-      <div id="editGrid" class="editGrid"></div>
+      <div id="editGrid" class="editGrid"><div class="catEdit"><div class="catHead"><b>Category 1</b><input data-path="cat-0" value="Amazing Facts"></div><div class="qEdit">
+            <input data-path="points-0-0" value="100">
+            <textarea data-path="question-0-0">Which country has the most islands in the world?
+
+A. Indonesia
+B. Japan
+C. Sweden
+D. Philippines</textarea>
+            <textarea data-path="answer-0-0">C. Sweden</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-0-0"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-0-1" value="200">
+            <textarea data-path="question-0-1">How many hearts does an octopus have?
+
+A. 1
+B. 2
+C. 3
+D. 4</textarea>
+            <textarea data-path="answer-0-1">C. 3</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-0-1"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-0-2" value="300">
+            <textarea data-path="question-0-2">Which of the following is NOT an official language of the United Nations?
+
+A. Spanish
+B. Chinese
+C. Japanese
+D. Arabic</textarea>
+            <textarea data-path="answer-0-2">C. Japanese</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-0-2"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-0-3" value="400">
+            <textarea data-path="question-0-3">Which animal has fingerprints almost identical to humans?
+
+A. Koala
+B. Chimpanzee
+C. Panda
+D. Gorilla</textarea>
+            <textarea data-path="answer-0-3">A. Koala</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-0-3" checked=""> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-0-4" value="500">
+            <textarea data-path="question-0-4">How many grams is one carat (1 ct) of diamond?
+
+A. 0.02 g
+B. 0.2 g
+C. 2 g
+D. 20 g</textarea>
+            <textarea data-path="answer-0-4">B. 0.2g</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-0-4"> Daily Double</label></div></div><div class="catEdit"><div class="catHead"><b>Category 2</b><input data-path="cat-1" value="Connect 4 Words"></div><div class="qEdit">
+            <input data-path="points-1-0" value="100">
+            <textarea data-path="question-1-0">Black, Surf, Snow, White</textarea>
+            <textarea data-path="answer-1-0">Board</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-1-0"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-1-1" value="200">
+            <textarea data-path="question-1-1">Bag, Afternoon, Pot, Green</textarea>
+            <textarea data-path="answer-1-1">Tea</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-1-1"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-1-2" value="300">
+            <textarea data-path="question-1-2">Wedding, Boxing, Phone, Tree</textarea>
+            <textarea data-path="answer-1-2">Ring</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-1-2"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-1-3" value="400">
+            <textarea data-path="question-1-3">Fish, Map, Music, Weight</textarea>
+            <textarea data-path="answer-1-3">Scale</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-1-3"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-1-4" value="500">
+            <textarea data-path="question-1-4">Needle, Storm, Potato, Camera</textarea>
+            <textarea data-path="answer-1-4">Eye</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-1-4"> Daily Double</label></div></div><div class="catEdit"><div class="catHead"><b>Category 3</b><input data-path="cat-2" value="Movie Titles: Lost Vowels"></div><div class="qEdit">
+            <input data-path="points-2-0" value="100">
+            <textarea data-path="question-2-0">SPDRMN</textarea>
+            <textarea data-path="answer-2-0">Spider-Man</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-2-0"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-2-1" value="200">
+            <textarea data-path="question-2-1">THLNKNG</textarea>
+            <textarea data-path="answer-2-1">The Lion King</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-2-1"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-2-2" value="300">
+            <textarea data-path="question-2-2">FNDNGNM</textarea>
+            <textarea data-path="answer-2-2">Finding Nemo</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-2-2"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-2-3" value="400">
+            <textarea data-path="question-2-3">THDVLWRSPRD</textarea>
+            <textarea data-path="answer-2-3">The Devil Wears Prada</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-2-3"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-2-4" value="500">
+            <textarea data-path="question-2-4">NSDT</textarea>
+            <textarea data-path="answer-2-4">Inside Out</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-2-4"> Daily Double</label></div></div><div class="catEdit"><div class="catHead"><b>Category 4</b><input data-path="cat-3" value="Dingbats (English Expressions)"></div><div class="qEdit">
+            <input data-path="points-3-0" value="100">
+            <textarea data-path="question-3-0">cycle
+cycle
+cycle</textarea>
+            <textarea data-path="answer-3-0">Tricycle</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-3-0"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-3-1" value="200">
+            <textarea data-path="question-3-1">STAND
+I</textarea>
+            <textarea data-path="answer-3-1">I understand</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-3-1"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-3-2" value="300">
+            <textarea data-path="question-3-2">   ↓  
+AG ES</textarea>
+            <textarea data-path="answer-3-2">Middle ages</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-3-2" checked=""> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-3-3" value="400">
+            <textarea data-path="question-3-3">EST  EST
+EST  EST</textarea>
+            <textarea data-path="answer-3-3">Forest</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-3-3"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-3-4" value="500">
+            <textarea data-path="question-3-4">CIMALTE</textarea>
+            <textarea data-path="answer-3-4">Climate Change</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-3-4"> Daily Double</label></div></div><div class="catEdit"><div class="catHead"><b>Category 5</b><input data-path="cat-4" value="Brain Teasers"></div><div class="qEdit">
+            <input data-path="points-4-0" value="100">
+            <textarea data-path="question-4-0">Larry's Father has four sons. Their names are listed below. What is the name of his fourth son?
+Rick, Nick, Mick and?</textarea>
+            <textarea data-path="answer-4-0">Larry</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-4-0"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-4-1" value="200">
+            <textarea data-path="question-4-1">How many times does the letter 'A' appear in the numbers from one to ninety-nine when spelt out?</textarea>
+            <textarea data-path="answer-4-1">None</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-4-1"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-4-2" value="300">
+            <textarea data-path="question-4-2">What are the next two letters in this everyday sequence?
+ S S F T W ? ?</textarea>
+            <textarea data-path="answer-4-2">T M
+(The sequence is the first letter of the days of the week backwards)</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-4-2"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-4-3" value="400">
+            <textarea data-path="question-4-3">Which of these words can you not turn into the name of a country by changing the first letter?
+A. Logo  B. While  
+C. Petal  D. Trance</textarea>
+            <textarea data-path="answer-4-3">C. Petal
+(Togo, Chile &amp; France)</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-4-3"> Daily Double</label></div><div class="qEdit">
+            <input data-path="points-4-4" value="500">
+            <textarea data-path="question-4-4">Which one of these words is the odd one out?
+A. Tone  B. Football  
+C. Freight  D. Fasten</textarea>
+            <textarea data-path="answer-4-4">B. Football
+: All the other end in Numbers (T)one, (Fr)eight, (Fas)ten</textarea>
+            <label class="checkline"><input type="checkbox" data-path="daily-4-4"> Daily Double</label></div></div></div>
       <div class="finalBox">
         <h3>Final Jeopardy</h3>
         <label>Final Question<textarea id="finalQuestion"></textarea></label>
@@ -108,12 +274,12 @@
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-live="polite">
     <div class="box">
       <div class="qMeta">
-        <span class="badge" id="modalCat"></span>
-        <span class="badge" id="modalPts"></span>
+        <span class="badge" id="modalCat">Movie Titles: Lost Vowels</span>
+        <span class="badge" id="modalPts">100 points</span>
       </div>
       <div class="dailySplash" id="dailySplash"><h2>DAILY DOUBLE!</h2><p>팀이 원하는 만큼 점수를 걸 수 있습니다.</p></div>
-      <div class="question" id="modalQuestion"></div>
-      <div class="answer" id="modalAnswer"></div>
+      <div class="question" id="modalQuestion">SPDRMN</div>
+      <div class="answer" id="modalAnswer">Spider-Man</div>
       <div class="modalActions">
         <button class="btn gold" id="showAnswerBtn" type="button">정답 보기</button>
         <button class="btn primary" id="markUsedBtn" type="button">푼 문제로 표시</button>
@@ -124,63 +290,188 @@
 
   <script>
     const DEFAULT_GAME_DATA = {
-      categories: [
-        {
-          name: "🎬 Movies",
-          questions: [
-            { points: 100, question: "🦁👑", answer: "The Lion King", daily: false },
-            { points: 200, question: "🚢💎❄️", answer: "Titanic", daily: false },
-            { points: 300, question: "🧙‍♂️⚡👓", answer: "Harry Potter", daily: false },
-            { points: 400, question: "🦖🏝️🚁", answer: "Jurassic Park", daily: true },
-            { points: 500, question: "👧🌪️👠🟢", answer: "The Wizard of Oz", daily: false }
-          ]
-        },
-        {
-          name: "🌍 Countries",
-          questions: [
-            { points: 100, question: "🍁🏒", answer: "Canada", daily: false },
-            { points: 200, question: "🍕🍝", answer: "Italy", daily: false },
-            { points: 300, question: "🦘🏄", answer: "Australia", daily: false },
-            { points: 400, question: "🌮🌵", answer: "Mexico", daily: false },
-            { points: 500, question: "🗼🥐", answer: "France", daily: false }
-          ]
-        },
-        {
-          name: "😀 Emoji Quiz",
-          questions: [
-            { points: 100, question: "🐱🐶🌧️", answer: "It’s raining cats and dogs.", daily: false },
-            { points: 200, question: "🩺💉", answer: "Doctor", daily: false },
-            { points: 300, question: "✈️👨‍✈️", answer: "Pilot", daily: false },
-            { points: 400, question: "👂➡️👂", answer: "In one ear and out the other", daily: false },
-            { points: 500, question: "🐝🍃", answer: "Believe", daily: false }
-          ]
-        },
-        {
-          name: "🤖 AI & Internet",
-          questions: [
-            { points: 100, question: "What does AI stand for?", answer: "Artificial Intelligence", daily: false },
-            { points: 200, question: "What app is famous for short videos?", answer: "TikTok", daily: false },
-            { points: 300, question: "What does URL mean?", answer: "Uniform Resource Locator", daily: true },
-            { points: 400, question: "What is a chatbot?", answer: "A computer program that talks with users", daily: false },
-            { points: 500, question: "What does ‘fake news’ mean?", answer: "False information presented as news", daily: false }
-          ]
-        },
-        {
-          name: "🎵 Pop Culture",
-          questions: [
-            { points: 100, question: "❄️👸🎵", answer: "Let It Go", daily: false },
-            { points: 200, question: "Which singer is known for the song ‘Shape of You’?", answer: "Ed Sheeran", daily: false },
-            { points: 300, question: "Which group sang ‘Dynamite’?", answer: "BTS", daily: false },
-            { points: 400, question: "Which movie has the song ‘A Whole New World’?", answer: "Aladdin", daily: false },
-            { points: 500, question: "What is the English title of ‘겨울왕국’?", answer: "Frozen", daily: false }
-          ]
-        }
+      "categories": [
+            {
+                  "name": "Amazing Facts",
+                  "questions": [
+                        {
+                              "points": 100,
+                              "question": "Which country has the most islands in the world?\n\nA. Indonesia\nB. Japan\nC. Sweden\nD. Philippines",
+                              "answer": "C. Sweden",
+                              "daily": false
+                        },
+                        {
+                              "points": 200,
+                              "question": "How many hearts does an octopus have?\n\nA. 1\nB. 2\nC. 3\nD. 4",
+                              "answer": "C. 3",
+                              "daily": false
+                        },
+                        {
+                              "points": 300,
+                              "question": "Which of the following is NOT an official language of the United Nations?\n\nA. Spanish\nB. Chinese\nC. Japanese\nD. Arabic",
+                              "answer": "C. Japanese",
+                              "daily": false
+                        },
+                        {
+                              "points": 400,
+                              "question": "Which animal has fingerprints almost identical to humans?\n\nA. Koala\nB. Chimpanzee\nC. Panda\nD. Gorilla",
+                              "answer": "A. Koala",
+                              "daily": true
+                        },
+                        {
+                              "points": 500,
+                              "question": "How many grams is one carat (1 ct) of diamond?\n\nA. 0.02 g\nB. 0.2 g\nC. 2 g\nD. 20 g",
+                              "answer": "B. 0.2g",
+                              "daily": false
+                        }
+                  ]
+            },
+            {
+                  "name": "Connect 4 Words",
+                  "questions": [
+                        {
+                              "points": 100,
+                              "question": "Black, Surf, Snow, White",
+                              "answer": "Board",
+                              "daily": false
+                        },
+                        {
+                              "points": 200,
+                              "question": "Bag, Afternoon, Pot, Green",
+                              "answer": "Tea",
+                              "daily": false
+                        },
+                        {
+                              "points": 300,
+                              "question": "Wedding, Boxing, Phone, Tree",
+                              "answer": "Ring",
+                              "daily": false
+                        },
+                        {
+                              "points": 400,
+                              "question": "Fish, Map, Music, Weight",
+                              "answer": "Scale",
+                              "daily": false
+                        },
+                        {
+                              "points": 500,
+                              "question": "Needle, Storm, Potato, Camera",
+                              "answer": "Eye",
+                              "daily": false
+                        }
+                  ]
+            },
+            {
+                  "name": "Movie Titles: Lost Vowels",
+                  "questions": [
+                        {
+                              "points": 100,
+                              "question": "SPDRMN",
+                              "answer": "Spider-Man",
+                              "daily": false
+                        },
+                        {
+                              "points": 200,
+                              "question": "THLNKNG",
+                              "answer": "The Lion King",
+                              "daily": false
+                        },
+                        {
+                              "points": 300,
+                              "question": "FNDNGNM",
+                              "answer": "Finding Nemo",
+                              "daily": false
+                        },
+                        {
+                              "points": 400,
+                              "question": "THDVLWRSPRD",
+                              "answer": "The Devil Wears Prada",
+                              "daily": false
+                        },
+                        {
+                              "points": 500,
+                              "question": "NSDT",
+                              "answer": "Inside Out",
+                              "daily": false
+                        }
+                  ]
+            },
+            {
+                  "name": "Dingbats (English Expressions)",
+                  "questions": [
+                        {
+                              "points": 100,
+                              "question": "cycle\ncycle\ncycle",
+                              "answer": "Tricycle",
+                              "daily": false
+                        },
+                        {
+                              "points": 200,
+                              "question": "STAND\nI",
+                              "answer": "I understand",
+                              "daily": false
+                        },
+                        {
+                              "points": 300,
+                              "question": "   ↓  \nAG ES",
+                              "answer": "Middle ages",
+                              "daily": true
+                        },
+                        {
+                              "points": 400,
+                              "question": "EST  EST\nEST  EST",
+                              "answer": "Forest",
+                              "daily": false
+                        },
+                        {
+                              "points": 500,
+                              "question": "CIMALTE",
+                              "answer": "Climate Change",
+                              "daily": false
+                        }
+                  ]
+            },
+            {
+                  "name": "Brain Teasers",
+                  "questions": [
+                        {
+                              "points": 100,
+                              "question": "Larry's Father has four sons. Their names are listed below. What is the name of his fourth son?\nRick, Nick, Mick and?",
+                              "answer": "Larry",
+                              "daily": false
+                        },
+                        {
+                              "points": 200,
+                              "question": "How many times does the letter 'A' appear in the numbers from one to ninety-nine when spelt out?",
+                              "answer": "None",
+                              "daily": false
+                        },
+                        {
+                              "points": 300,
+                              "question": "What are the next two letters in this everyday sequence?\n S S F T W ? ?",
+                              "answer": "T M\n(The sequence is the first letter of the days of the week backwards)",
+                              "daily": false
+                        },
+                        {
+                              "points": 400,
+                              "question": "Which of these words can you not turn into the name of a country by changing the first letter?\nA. Logo  B. While  \nC. Petal  D. Trance",
+                              "answer": "C. Petal\n(Togo, Chile & France)",
+                              "daily": false
+                        },
+                        {
+                              "points": 500,
+                              "question": "Which one of these words is the odd one out?\nA. Tone  B. Football  \nC. Freight  D. Fasten",
+                              "answer": "B. Football\n: All the other end in Numbers (T)one, (Fr)eight, (Fas)ten",
+                              "daily": false
+                        }
+                  ]
+            }
       ],
-      final: {
-        question: "👦⚡👓\nWhat is the movie/book series?",
-        answer: "Harry Potter"
+      "final": {
+            "question": "Unscramble the words below to find the name of a book and film character...\nRPAH OYRRTET",
+            "answer": "Harry Potter"
       }
-    };
+};
 
     let gameData = loadData();
     let used = new Set();
@@ -359,5 +650,6 @@
     renderBoard();
     renderEditor();
   </script>
-</body>
-</html>
+
+
+</body></html>
